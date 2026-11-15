@@ -1,0 +1,41 @@
+---
+layout: default
+---
+{% assign recipes = site.pages | where_exp: "p", "p.path contains 'recipes/'" | sort: "title" %}
+{% assign order = "breakfast,lunch,dinner,side,dessert,snack,drink,sauce" | split: "," %}
+{% assign labels = "Breakfast,Lunch,Dinner,Sides,Desserts,Snacks,Drinks,Sauces" | split: "," %}
+
+<input id="search" class="search" type="search" placeholder="Search {{ recipes.size }} recipes…" autocomplete="off">
+
+{% for cat in order %}
+  {% assign group = recipes | where: "category", cat %}
+  {% if group.size > 0 %}
+  <section class="category">
+    <h2>{{ labels[forloop.index0] }}</h2>
+    <ul class="recipe-list">
+      {% for r in group %}
+      <li data-search="{{ r.title | downcase }} {{ r.tags | join: ' ' }} {{ cat }}">
+        <a href="{{ r.url | relative_url }}">{{ r.title }}</a>
+        {% if r.cook_time %}<span class="hint">{{ r.cook_time }}</span>{% endif %}
+      </li>
+      {% endfor %}
+    </ul>
+  </section>
+  {% endif %}
+{% endfor %}
+
+<script>
+  var box = document.getElementById('search');
+  box.addEventListener('input', function () {
+    var q = box.value.toLowerCase().trim();
+    document.querySelectorAll('.category').forEach(function (sec) {
+      var shown = 0;
+      sec.querySelectorAll('li').forEach(function (li) {
+        var hit = !q || li.dataset.search.indexOf(q) !== -1;
+        li.hidden = !hit;
+        if (hit) shown++;
+      });
+      sec.hidden = shown === 0;
+    });
+  });
+</script>

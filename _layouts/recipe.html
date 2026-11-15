@@ -1,0 +1,55 @@
+---
+layout: default
+---
+<article class="recipe">
+  <h1>{{ page.title }}</h1>
+
+  <dl class="meta">
+    {% if page.servings %}<div><dt>Makes</dt><dd>{{ page.servings }}</dd></div>{% endif %}
+    {% if page.prep_time %}<div><dt>Prep</dt><dd>{{ page.prep_time }}</dd></div>{% endif %}
+    {% if page.cook_time %}<div><dt>Cook</dt><dd>{{ page.cook_time }}</dd></div>{% endif %}
+    {% if page.equipment and page.equipment.size > 0 %}<div><dt>Equipment</dt><dd>{{ page.equipment | join: ", " }}</dd></div>{% endif %}
+  </dl>
+
+  <button id="wake" class="wake" type="button" hidden>Keep screen on</button>
+
+  <div class="recipe-body">
+    {{ content }}
+  </div>
+
+  <footer class="recipe-footer">
+    {% if page.source contains "http" %}
+      Source: <a href="{{ page.source }}">{{ page.source | split: "/" | slice: 2 | join: "" | remove: "www." }}</a>
+    {% elsif page.source %}
+      Source: {{ page.source }}
+    {% endif %}
+    {% if page.tags.size > 0 %}<div class="tags">{% for t in page.tags %}<span>{{ t }}</span>{% endfor %}</div>{% endif %}
+  </footer>
+</article>
+
+<script>
+  // Tap an ingredient or step to cross it off while cooking.
+  document.querySelectorAll('.recipe-body li').forEach(function (li) {
+    li.addEventListener('click', function () { li.classList.toggle('done'); });
+  });
+
+  // Keep the phone screen awake while cooking, where supported.
+  (function () {
+    var btn = document.getElementById('wake');
+    if (!('wakeLock' in navigator)) return;
+    var lock = null;
+    btn.hidden = false;
+    async function set(on) {
+      try {
+        if (on) { lock = await navigator.wakeLock.request('screen'); }
+        else if (lock) { await lock.release(); lock = null; }
+      } catch (e) { lock = null; }
+      btn.classList.toggle('on', !!lock);
+      btn.textContent = lock ? 'Screen staying on' : 'Keep screen on';
+    }
+    btn.addEventListener('click', function () { set(!lock); });
+    document.addEventListener('visibilitychange', function () {
+      if (btn.classList.contains('on') && document.visibilityState === 'visible') set(true);
+    });
+  })();
+</script>

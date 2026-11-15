@@ -1,0 +1,14 @@
+title: Recipe Box
+description: Our family recipes. No ads, no life stories.
+baseurl: /recipes
+markdown: kramdown
+
+exclude:
+  - README.md
+  - _template.md
+
+defaults:
+  - scope:
+      path: recipes
+    values:
+      layout: recipe
