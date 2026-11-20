@@ -6,6 +6,9 @@ Brian's consolidated recipe collection. One Markdown file per recipe in `recipes
 
 ## Index
 
+### Dinner
+- [Instant Pot Pork Loin with Pan Juices](recipes/instant-pot-pork-loin.md) — Instant Pot, serves 4–6
+
 ### Sides
 - [Sweet Potato Casserole](recipes/sweet-potato-casserole.md) — 9x13, pecan crumble topping
 
