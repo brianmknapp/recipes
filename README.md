@@ -10,6 +10,7 @@ Brian's consolidated recipe collection. One Markdown file per recipe in `recipes
 - [Instant Pot Pork Loin with Pan Juices](recipes/instant-pot-pork-loin.md) — Instant Pot, serves 4–6
 
 ### Sides
+- [Buttery Herb Stuffing](recipes/buttery-herb-stuffing.md) — 9x13, serves about 8, make-ahead friendly
 - [Sweet Potato Casserole](recipes/sweet-potato-casserole.md) — 9x13, pecan crumble topping
 
 ## Conventions
